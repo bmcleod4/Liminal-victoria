@@ -39,136 +39,124 @@ map.on('load', function () {
             "features": [{
                 "type": "Feature",
                 "properties": {
-                    "name": "Victoria Golf Course",
-                    "description": "<p>Golf</p>",
+                    "description": "<p>Victoria Golf Course</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.299924, 48.414932]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "Ross Bay Cemetery",
-                    "description": "<p>Ross Bay</p>",
+                    "description": "<p>Ross Bay Cemetery</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.340535, 48.411174]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "Craigdarroch Castle",
-                    "description": "<p>Craigdarroch</p>",
+                    "description": "<p>Craigdarroch Castle</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.343803, 48.422352]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "Pioneer Square",
-                    "description": "<p>Pioneer</p>",
+                    "description": "<p>Pioneer Square</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.359245, 48.422778]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "Beacon Hill Park",
-                    "description": "<p>Beacon Hill</p>",
+                    "description": "<p>Beacon Hill Park</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.362532, 48.412539]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "St. Ann's Academy",
-                    "description": "<p>St. Ann's</p>",
+                    "description": "<p>St. Ann's Academy</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.363757, 48.419020]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "Chinatown",
-                    "description": "<p>China</p>",
+                    "description": "<p>Chinatown</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.367288, 48.429377]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "Fairmont Empress",
-                    "description": "<p>Fairmont</p>",
+                    "description": "<p>The Fairmont Empress</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.367612, 48.421786]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "Market Square",
-                    "description": "<p>Market</p>",
+                    "description": "<p>Market Square</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.368775, 48.428098]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "Bastion Square",
-                    "description": "<p>Bastion</p>",
+                    "description": "<p>Bastion Square</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.369367, 48.425915]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "Parliament Buildings",
-                    "description": "<p>Golf</p>",
+                    "description": "<p>B.C. Parliament Buildings</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.370294, 48.419387]
                 }
-            },{
+            }, {
                 "type": "Feature",
                 "properties": {
-                    "name": "Hatley Castle",
-                    "description": "<p>X-Men</p>",
+                    "description": "<p>Hatley Castle</p>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-123.472601, 48.434488]
                 }
-            },]
+            }]
         }
     });
     map.addLayer({
@@ -181,23 +169,24 @@ map.on('load', function () {
         }
     });
 });
-map.on('click', function (e) {
+var popup = new mapbox.gl.Popup({
+    closeButton: false,
+    closeOnClick: false
+});
+map.on('mousemove', function(e) {
     var features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 
     if (!features.length) {
+        popup.remove();
         return;
     }
 
     var feature = features[0];
 
-    var popup = new mapboxgl.Popup()
-        .setLngLat(feature.geometry.coordinates)
+    popup.setLngLat(feature.geometry.coordinates)
         .setHTML(feature.properties.description)
         .addTo(map);
-});
-map.on('mousemove', function (e) {
-    var features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
-    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 });
 </script>
 
