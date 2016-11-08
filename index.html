@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title>Liminal Victoria</title>
+    <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.css' rel='stylesheet' />
@@ -25,13 +25,13 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYm1jbGVvZDQiLCJhIjoiY2l1amt1MWE3MDB1aDJ6b2R4Z
 
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/bmcleod4/ciutxvf4300ge2iqot49pev4y',
-    center: [-123.352253, 48.420239],
-    zoom: 13.5
+    style: 'mapbox://styles/mapbox/streets-v9',
+    center: [-77.04, 38.907],
+    zoom: 11.15
 });
 
 map.on('load', function () {
-    
+    // Add a GeoJSON source containing place coordinates and information.
     map.addSource("places", {
         "type": "geojson",
         "data": {
@@ -39,7 +39,7 @@ map.on('load', function () {
             "features": [{
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>Victoria Golf Course</p>",
+                    "description": "<strong>Victoria Golf Course</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -49,7 +49,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>Ross Bay Cemetery</p>",
+                    "description": "<strong>Ross Bay Cemetery</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -59,7 +59,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>Craigdarroch Castle</p>",
+                    "description": "<strong>Craigdarroch Castle</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -69,7 +69,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>Pioneer Square</p>",
+                    "description": "<strong>Pioneer Square</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -79,7 +79,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>Beacon Hill Park</p>",
+                    "description": "<strong>Beacon Hill Park</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -89,7 +89,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>St. Ann's Academy</p>",
+                    "description": "<strong>St. Ann's Academy</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -99,7 +99,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>Chinatown</p>",
+                    "description": "<strong>Chinatown</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -109,7 +109,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>The Fairmont Empress</p>",
+                    "description": "<strong>The Fairmont Empress</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -119,7 +119,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>Market Square</p>",
+                    "description": "<strong>Market Square</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -129,7 +129,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>Bastion Square</p>",
+                    "description": "<strong>Bastion Square</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -139,7 +139,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>B.C. Parliament Buildings</p>",
+                    "description": "<strong>B.C. Parliament Buildings</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -149,7 +149,7 @@ map.on('load', function () {
             }, {
                 "type": "Feature",
                 "properties": {
-                    "description": "<p>Hatley Castle</p>",
+                    "description": "<strong>Hatley Castle</strong>",
                     "icon": "lzxquwz01-55604"
                 },
                 "geometry": {
@@ -159,6 +159,7 @@ map.on('load', function () {
             }]
         }
     });
+    // Add a layer showing the places.
     map.addLayer({
         "id": "places",
         "type": "symbol",
@@ -169,24 +170,32 @@ map.on('load', function () {
         }
     });
 });
-var popup = new mapbox.gl.Popup({
-    closeButton: false,
-    closeOnClick: false
-});
-map.on('mousemove', function(e) {
+
+
+// When a click event occurs near a place, open a popup at the location of
+// the feature, with description HTML from its properties.
+map.on('click', function (e) {
     var features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
-    map.getCanvas().style.cursor = (features.length) ? 'pointer' : 'lzxquwz01-55604';
 
     if (!features.length) {
-        popup.remove();
         return;
     }
 
     var feature = features[0];
 
-    popup.setLngLat(feature.geometry.coordinates)
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    var popup = new mapboxgl.Popup()
+        .setLngLat(feature.geometry.coordinates)
         .setHTML(feature.properties.description)
         .addTo(map);
+});
+
+// Use the same approach as above to indicate that the symbols are clickable
+// by changing the cursor style to 'pointer'.
+map.on('mousemove', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 });
 </script>
 
